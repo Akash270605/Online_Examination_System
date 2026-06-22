@@ -1,0 +1,559 @@
+:root {
+  /*
+    CSS variables keep colors in one place.
+    If you want to change the theme, edit these values first.
+  */
+  --bg: #f5f7fb;           /* Page background - light gray-blue */
+  --panel: #ffffff;        /* Panel/card background - white */
+  --panel-soft: #eef3f8;   /* Softer panel background for subtle sections */
+  --text: #172033;         /* Main text color - dark navy */
+  --muted: #657084;        /* Secondary/subtitle text - medium gray-blue */
+  --line: #dce4ef;         /* Border lines - light blue-gray */
+  --primary: #1f7a6d;      /* Primary action color - teal green */
+  --primary-dark: #155f55; /* Darker shade for hover states */
+  --accent: #b6465f;       /* Danger/alert color - rose red */
+  --warning: #a86800;      /* Warning color - amber */
+  --success: #2f7d4d;      /* Success color - green */
+  --shadow: 0 18px 45px rgba(23, 32, 51, 0.10); /* Soft shadow for depth */
+}
+
+* {
+  /*
+    border-box makes width calculations easier:
+    width includes padding and border instead of adding them separately.
+  */
+  box-sizing: border-box;
+}
+
+body {
+  /*
+    The body styles define the global background and text style used by every
+    screen. The gradients are subtle so the app still feels professional.
+  */
+  margin: 0;                 /* Remove the default 8px margin that browsers add */
+  min-height: 100vh;         /* Ensure the body fills at least the full viewport height */
+  background:
+    linear-gradient(135deg, rgba(31, 122, 109, 0.12), transparent 32%),    /* Teal gradient in top-left */
+    linear-gradient(225deg, rgba(182, 70, 95, 0.10), transparent 30%),    /* Rose gradient in top-right */
+    var(--bg);               /* Fallback solid background color */
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;  /* Clean, modern font stack */
+}
+
+button,
+input,
+select,
+textarea {
+  /*
+    Form controls should use the same font as the rest of the page.
+    Without this, browsers use a monospace font for inputs by default.
+  */
+  font: inherit;
+}
+
+button {
+  /*
+    A shared button style keeps actions consistent across admin and student UI.
+  */
+  border: 0;                    /* Remove default button borders */
+  border-radius: 8px;           /* Rounded corners for a modern look */
+  background: var(--primary);   /* Teal green background */
+  color: white;                 /* White text */
+  min-height: 42px;             /* Minimum height for touch-friendly click area */
+  padding: 0 16px;              /* Horizontal padding inside the button */
+  cursor: pointer;              /* Show a pointer hand on hover */
+  font-weight: 700;             /* Bold text */
+  transition: transform 140ms ease, background 140ms ease, opacity 140ms ease;  /* Smooth animation on hover */
+}
+
+button:hover {
+  background: var(--primary-dark);   /* Darker shade on hover */
+  transform: translateY(-1px);       /* Slight lift effect */
+}
+
+button:disabled {
+  cursor: not-allowed;               /* Show "not allowed" cursor */
+  opacity: 0.6;                      /* Faded appearance */
+  transform: none;                   /* No lift effect when disabled */
+}
+
+button.small {
+  min-height: 32px;                  /* Compact version for inline actions */
+  padding: 0 10px;
+  font-size: 0.85rem;
+}
+
+button.secondary {
+  background: #e6edf5;               /* Light blue-gray background */
+  color: var(--text);                /* Normal dark text instead of white */
+}
+
+button.secondary:hover {
+  background: #d8e3ef;               /* Slightly darker on hover */
+}
+
+button.danger {
+  background: var(--accent);         /* Rose red for delete/destructive actions */
+}
+
+.app-shell {
+  /*
+    app-shell keeps content readable by limiting the page width on large screens
+    while still using almost the full screen on small devices.
+  */
+  width: min(1180px, calc(100% - 32px));  /* Max 1180px wide, but 32px margin on small screens */
+  margin: 24px auto;                       /* Center the content vertically and horizontally */
+}
+
+.topbar {
+  /*
+    The topbar contains the app title and logout button after login.
+  */
+  display: flex;               /* Horizontal layout with flexbox */
+  align-items: center;         /* Vertically center items */
+  justify-content: space-between; /* Push brand to left, logout to right */
+  gap: 16px;                   /* Space between items */
+  margin-bottom: 18px;         /* Space below the topbar */
+}
+
+.brand {
+  display: flex;               /* Place the logo mark next to the text */
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  display: grid;               /* Center the "OE" text inside the colored square */
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;          /* Rounded square */
+  background: var(--primary);
+  color: white;
+  font-weight: 900;            /* Heavy font for the logo letters */
+  letter-spacing: 0;
+}
+
+.brand h1 {
+  margin: 0;                   /* Remove default heading margin */
+  font-size: clamp(1.3rem, 3vw, 2rem);  /* Responsive font size: min 1.3rem, max 2rem */
+  line-height: 1.1;
+}
+
+.brand p,
+.muted {
+  color: var(--muted);         /* Grayish text for secondary information */
+}
+
+.brand p {
+  margin: 4px 0 0;
+}
+
+.login-page {
+  /*
+    The login page is centered vertically and horizontally.
+  */
+  min-height: 100vh;           /* Fill the full viewport height */
+  display: grid;               /* Use grid for centering */
+  place-items: center;         /* Center content both ways */
+  padding: 24px;
+}
+
+.login-card {
+  /*
+    A two-column layout gives the login screen a friendly product feel:
+    visual panel on the left, form on the right.
+  */
+  width: min(960px, 100%);          /* Responsive width */
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;  /* Two columns: slightly wider left side */
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;                /* Keep the rounded corners clipping content */
+  box-shadow: var(--shadow);
+}
+
+.login-hero {
+  /*
+    The visual side of the login page uses CSS gradients instead of an external
+    image so the project works offline in NetBeans.
+  */
+  padding: 44px;
+  background:
+    linear-gradient(rgba(23, 32, 51, 0.58), rgba(23, 32, 51, 0.70)),  /* Dark overlay */
+    repeating-linear-gradient(135deg, #28546b 0 18px, #1f7a6d 18px 36px, #b6465f 36px 54px); /* Diagonal stripes */
+  color: white;
+  min-height: 420px;               /* Minimum height so it doesn't collapse */
+  display: flex;
+  flex-direction: column;          /* Stack heading and paragraph vertically */
+  justify-content: flex-end;       /* Push text to the bottom */
+}
+
+.login-hero h2 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 5vw, 3.7rem);  /* Large responsive heading */
+  line-height: 0.98;
+}
+
+.login-hero p {
+  max-width: 520px;               /* Keep paragraphs readable (not too wide) */
+  margin: 0;
+  line-height: 1.6;
+}
+
+.login-form {
+  padding: 42px;
+  display: flex;                  /* Vertical stack of form elements */
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;                      /* Consistent spacing between form fields */
+}
+
+.login-form h3 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.auth-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Two equal buttons side by side */
+  gap: 8px;
+}
+
+.auth-switch button {
+  width: 100%;                    /* Each button fills its grid cell */
+}
+
+.field {
+  /*
+    A field wraps one label and one input. Using a small grid keeps spacing
+    consistent across forms.
+  */
+  display: grid;
+  gap: 7px;
+}
+
+.field span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  /*
+    Inputs are given a clear border, comfortable height, and rounded corners so
+    the UI is easy to use for beginners and non-technical users.
+  */
+  width: 100%;                  /* Fill the available width */
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--text);
+  min-height: 42px;             /* Tall enough for easy clicking/tapping */
+  padding: 10px 12px;
+  outline: none;                /* Remove default browser outline (we use box-shadow instead) */
+}
+
+textarea {
+  min-height: 88px;             /* Textareas need more height for multiple lines */
+  resize: vertical;             /* Allow users to resize vertically only */
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);                    /* Highlight border when focused */
+  box-shadow: 0 0 0 3px rgba(31, 122, 109, 0.14); /* Subtle glow effect */
+}
+
+.demo-box,
+.notice {
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.tabs {
+  /*
+    Tabs let admin and student users switch between sections without leaving
+    the single-page app.
+  */
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;              /* Wrap to next line on small screens */
+  margin: 18px 0;
+}
+
+.tab {
+  background: #e6edf5;
+  color: var(--text);
+}
+
+.tab.active {
+  background: var(--primary);   /* Highlight the currently selected tab */
+  color: white;
+}
+
+.grid {
+  /*
+    The grid helper is reused for dashboards, forms, and result summaries.
+  */
+  display: grid;
+  gap: 16px;
+}
+
+.grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* Two equal columns */
+}
+
+.grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));  /* Three equal columns */
+}
+
+.panel,
+.card {
+  /*
+    Panels and cards are reusable containers. Panels are for main sections;
+    cards are for smaller repeated information blocks.
+  */
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(23, 32, 51, 0.06);  /* Soft shadow for depth */
+}
+
+.panel {
+  padding: 18px;
+}
+
+.card {
+  padding: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: flex-start;        /* Align items to the top */
+  justify-content: space-between; /* Title on left, action/badge on right */
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-title h2,
+.section-title h3,
+.card h3 {
+  margin: 0;                      /* Remove default heading margins */
+}
+
+.section-title p,
+.card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.stat {
+  display: grid;
+  gap: 6px;
+}
+
+.stat strong {
+  font-size: 1.8rem;             /* Large number for statistics */
+}
+
+.badge {
+  /*
+    Badges show status values such as role, active alerts, or percentage.
+  */
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;          /* Fully rounded pill shape */
+  background: var(--panel-soft);
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.badge.good {
+  background: rgba(47, 125, 77, 0.13);  /* Green-tinted background */
+  color: var(--success);
+}
+
+.badge.warn {
+  background: rgba(168, 104, 0, 0.13);  /* Amber-tinted background */
+  color: var(--warning);
+}
+
+.badge.bad {
+  background: rgba(182, 70, 95, 0.13);  /* Red-tinted background */
+  color: var(--accent);
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+}
+
+.row {
+  /*
+    Rows are used for list items such as users, exams, results, and monitoring
+    entries. The right side usually contains an action button or badge.
+  */
+  display: grid;
+  grid-template-columns: 1fr auto;   /* Content takes remaining space, actions take minimum */
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fbfcfe;               /* Slightly off-white for subtle contrast */
+}
+
+.row h4 {
+  margin: 0;
+}
+
+.row p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;         /* Push action buttons to the right */
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.question-editor {
+  /*
+    Admins use this block to enter one question and its answer options.
+  */
+  display: grid;
+  gap: 10px;
+  border: 1px dashed var(--line);   /* Dashed border to show it's an editable section */
+  border-radius: 8px;
+  padding: 12px;
+  background: #fbfcfe;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* Two columns for options A/B and C/D */
+  gap: 10px;
+}
+
+.exam-layout {
+  /*
+    During an exam, questions stay on the left and the timer panel stays on the
+    right on large screens.
+  */
+  display: grid;
+  grid-template-columns: 1fr 300px;  /* Questions take remaining space, sidebar is 300px fixed */
+  gap: 16px;
+}
+
+.sticky-side {
+  /*
+    position: sticky keeps the timer visible while the student scrolls through
+    long exams.
+  */
+  position: sticky;
+  top: 16px;                        /* Stay 16px from the top while scrolling */
+  align-self: start;                /* Don't stretch the sidebar height */
+}
+
+.timer {
+  font-size: 2rem;                  /* Large countdown display */
+  font-weight: 900;
+  color: var(--primary);
+}
+
+.question-card {
+  margin-bottom: 14px;
+}
+
+.option {
+  /*
+    Each option is a label, so clicking the text selects the radio button too.
+  */
+  display: grid;
+  grid-template-columns: 22px 1fr;  /* Radio button (22px) then text */
+  align-items: start;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-top: 8px;                  /* Space between options */
+  cursor: pointer;                  /* Clickable pointer on the whole option area */
+}
+
+.option:hover {
+  border-color: var(--primary);                     /* Highlight border on hover */
+  background: rgba(31, 122, 109, 0.05);             /* Subtle teal background */
+}
+
+.option input {
+  min-height: auto;                 /* Override the general input min-height for radio buttons */
+  margin-top: 4px;
+}
+
+.toast {
+  /*
+    Toasts are temporary messages for errors and successful actions.
+  */
+  position: fixed;                  /* Stay in the same position even when scrolling */
+  right: 18px;
+  bottom: 18px;
+  max-width: min(420px, calc(100% - 36px));  /* Responsive max width */
+  background: var(--text);          /* Dark background for contrast */
+  color: white;
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow);
+  z-index: 20;                     /* Appear above other content */
+}
+
+@media (max-width: 860px) {
+  /*
+    The responsive rules stack columns on smaller screens so the UI remains
+    usable on tablets and phones.
+  */
+  .login-card,
+  .grid.two,
+  .grid.three,
+  .exam-layout {
+    grid-template-columns: 1fr;     /* Single column on small screens */
+  }
+
+  .login-hero {
+    min-height: 300px;              /* Slightly smaller hero on mobile */
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;         /* Stack brand and logout vertically */
+  }
+
+  .option-grid {
+    grid-template-columns: 1fr;     /* Stack option inputs vertically */
+  }
+
+  .sticky-side {
+    position: static;               /* Disable sticky positioning on mobile */
+  }
+}

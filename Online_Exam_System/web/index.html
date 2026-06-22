@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+    index.html is the first file loaded by the browser.
+    It does not contain all screens directly. Instead, app.js builds the login,
+    admin dashboard, student exam screen, and result screen dynamically.
+  -->
+  <meta charset="utf-8">
+  <!--
+    viewport makes the layout responsive on mobile and desktop screens.
+    Without this, phones would zoom out and show a tiny version of the page.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The title shown in the browser tab -->
+  <title>Online Examination System</title>
+
+  <!-- styles.css contains all visual design rules for the application. -->
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!--
+    app.js fills this empty <div> with the correct screen after login checks.
+    Initially the <div> is empty. JavaScript will put content inside it.
+  -->
+  <div id="app"></div>
+
+  <!--
+    app.js handles API calls, forms, timers, monitoring, and anti-cheat events.
+    The "defer" behavior is not needed since this is at the end of <body>,
+    meaning the DOM is already loaded before this script runs.
+  -->
+  <script src="/app.js"></script>
+</body>
+</html>
